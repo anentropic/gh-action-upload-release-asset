@@ -1,8 +1,8 @@
 # GitHub Action - Releases API
 
-**Please note:** This repository is currently unmaintained by a team of developers at GitHub. The 
-repository is here and you can use it as an example, or in Actions. However please be aware that 
-we are not going to be updating issues or pull requests on this repository.
+**Please note:** ~~This~~ The upstream repository is currently unmaintained by a team of developers at GitHub. The  repository is here and you can use it as an example, or in Actions. However please be aware that  we are not going to be updating issues or pull requests on this repository.
+
+**Note:** There are problems in newer versions of Node > 14
 
 **Maintained Actions:**
 * [softprops/action-gh-release](https://github.com/softprops/action-gh-release)
