@@ -1,11 +1,14 @@
-const core = require('@actions/core');
-const { GitHub } = require('@actions/github');
 const fs = require('fs');
+const core = require('@actions/core');
+const { GitHub, getOctokitOptions } = require('@actions/github/lib/utils');
+const { retry } = require('@octokit/plugin-retry');
 
 async function run() {
   try {
     // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
-    const github = new GitHub(process.env.GITHUB_TOKEN);
+    // eslint-disable-next-line new-cap
+    const Octokit = GitHub.plugin(retry);
+    const github = new Octokit(getOctokitOptions(process.env.GITHUB_TOKEN));
 
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const uploadUrl = core.getInput('upload_url', { required: true });

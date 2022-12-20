@@ -1,5 +1,13 @@
 jest.mock('@actions/core');
 jest.mock('@actions/github');
+jest.mock('@actions/github/lib/utils', () => ({
+  GitHub: {
+    plugin: jest.fn().mockImplementation(() => {
+      // Return the mock value here
+    })
+  },
+  getOctokitOptions: jest.fn()
+}));
 jest.mock('fs', () => ({
   promises: {
     access: jest.fn()
@@ -7,7 +15,8 @@ jest.mock('fs', () => ({
 }));
 
 const core = require('@actions/core');
-const { GitHub, context } = require('@actions/github');
+const { context } = require('@actions/github');
+const { GitHub } = require('@actions/github/lib/utils');
 const fs = require('fs');
 const run = require('../src/upload-release-asset');
 
@@ -35,13 +44,15 @@ describe('Upload Release Asset', () => {
       repo: 'repo'
     };
 
-    const github = {
-      repos: {
-        uploadReleaseAsset
-      }
-    };
-
-    GitHub.mockImplementation(() => github);
+    GitHub.plugin.mockImplementation(
+      () =>
+        // eslint-disable-next-line func-names
+        function() {
+          this.repos = {
+            uploadReleaseAsset
+          };
+        }
+    );
   });
 
   test('Upload release asset endpoint is called', async () => {
