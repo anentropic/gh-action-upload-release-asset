@@ -1838,16 +1838,20 @@ const { retry } = __webpack_require__(755);
 
 async function run() {
   try {
-    // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
-    // eslint-disable-next-line new-cap
-    const Octokit = GitHub.plugin(retry);
-    const github = new Octokit(getOctokitOptions(process.env.GITHUB_TOKEN));
-
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const uploadUrl = core.getInput('upload_url', { required: true });
     const assetPath = core.getInput('asset_path', { required: true });
     const assetName = core.getInput('asset_name', { required: true });
     const assetContentType = core.getInput('asset_content_type', { required: true });
+    const numRetries = parseInt(core.getInput('num_retries') || '3', 10);
+    const retryAfter = parseInt(core.getInput('retry_after') || '0', 10);
+
+    // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
+    // eslint-disable-next-line new-cap
+    const Octokit = GitHub.plugin(retry);
+    const github = new Octokit(getOctokitOptions(process.env.GITHUB_TOKEN), {
+      request: { retries: numRetries, retryAfter }
+    });
 
     // Determine content-length for header to upload asset
     const contentLength = filePath => fs.statSync(filePath).size;

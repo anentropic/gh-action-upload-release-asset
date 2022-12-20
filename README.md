@@ -27,6 +27,11 @@ Create a workflow `.yml` file in your repositories `.github/workflows` directory
 For more information on these inputs, see the [API Documentation](https://developer.github.com/v3/repos/releases/#input-2)
 
 - `upload_url`: The URL for uploading assets to the release, which could come from another GitHub Action, for example the [`@actions/create-release`](https://www.github.com/actions/create-release) GitHub Action
+- `asset_path`: The local path to the asset you want to upload
+- `asset_name`: The name to upload the asset under
+- `asset_content_type`: The content-type of the asset you want to upload. See the supported Media Types here: https://www.iana.org/assignments/media-types/media-types.xhtml for more information
+- `num_retries`: How many times to retry an upload which fails with retryable status code. See: https://github.com/octokit/plugin-retry.js/ (default: `3`)
+- `retry_after`: Delay in seconds between failed upload retries. See: https://github.com/octokit/plugin-retry.js/ (default: `0`)
 
 ### Outputs
 For more information on these outputs, see the [API Documentation](https://developer.github.com/v3/repos/releases/#response-for-successful-upload) for an example of what these outputs look like

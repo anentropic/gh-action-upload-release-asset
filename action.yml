@@ -14,6 +14,12 @@ inputs:
   asset_content_type:
     description: 'The content-type of the asset you want to upload. See the supported Media Types here: https://www.iana.org/assignments/media-types/media-types.xhtml for more information'
     required: true
+  num_retries:
+    description: 'How many times to retry an upload which fails with retryable status code. See: https://github.com/octokit/plugin-retry.js/'
+    required: false
+  retry_after:
+    description: 'Delay in seconds between failed upload retries. See: https://github.com/octokit/plugin-retry.js/'
+    required: false
 outputs:
   browser_download_url:
     description: 'The URL users can navigate to in order to download the uploaded asset'
