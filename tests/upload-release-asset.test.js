@@ -48,8 +48,10 @@ describe('Upload Release Asset', () => {
       () =>
         // eslint-disable-next-line func-names
         function() {
-          this.repos = {
-            uploadReleaseAsset
+          this.rest = {
+            repos: {
+              uploadReleaseAsset
+            }
           };
         }
     );
